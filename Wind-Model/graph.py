@@ -7,7 +7,6 @@ import json
 lat= 40.112283
 lng= -88.226541
 
-datapoint = None
 with open("./out.json", "r") as of:
     all_data = of.read()
 
@@ -46,10 +45,10 @@ def parse_data(dp):
 
     wind_directions = [noaa_data[alt_data_keys[0] + i] for i in direct_alt_match_keys]
     wind_speeds =  [noaa_data[alt_data_keys[1] + i] for i in direct_alt_match_keys]
+    cloud_cover = noaa_data['cloudCover']
+    precipitation = noaa_data['precipitation']
 
-    # print(alts)
-    # print(wind_directions)
-    # print(wind_speeds)
+
 
 
     # calc alt from pressure + temp
@@ -73,7 +72,7 @@ def parse_data(dp):
     # for i in range(len(alts)):
     #     print("ALT:", alts[i], "m", "      ", "ws: ", wind_speeds[i], "m/s")
 
-    return alts, wind_speeds, wind_directions
+    return alts, wind_speeds, wind_directions, cloud_cover, precipitation
 
 
 
@@ -81,16 +80,35 @@ ax = plt.figure().add_subplot(projection='3d')
 
 only_data_we_care_about = datapoints[0:24]
 
+cloud_cover = []
+cloudGraph = plt.figure().add_subplot()
+
+precipitation = []
+precipGraph = plt.figure().add_subplot()
+
 for ind, data in enumerate(only_data_we_care_about):
-    alts,speeds,dirs = parse_data(data)
-    
-    print(data['time'])
+    alts,speeds,dirs, cc, precip = parse_data(data)
+    cloud_cover.append(cc)
+    precipitation.append(precip)
+    # print(data['time'])
+    # print(cloud_cover['time'])
 
     ax.plot(alts, speeds, zs=ind)
 
 ax.set_xlabel("Altitude (m)")
 ax.set_ylabel("Wind speed (m/s)")
 ax.set_zlabel("Hour")
+ax.set_title("Wind speed vs Altitude over 24 hours")
+
+cloudGraph.plot(range(24), cloud_cover, marker="o")
+cloudGraph.set_xlabel("Hour")
+cloudGraph.set_ylabel("Cloud Cover (%)")
+cloudGraph.set_title("Cloud Cover over 24 hours")
+
+precipGraph.plot(range(24), precipitation, marker="o")
+precipGraph.set_xlabel("Hour")
+precipGraph.set_ylabel("Precipitation (mm/h)")
+precipGraph.set_title("Precipitation over 24 hours")
 
 
 plt.show()
