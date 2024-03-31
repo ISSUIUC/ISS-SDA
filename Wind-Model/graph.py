@@ -13,7 +13,7 @@ with open("./out.json", "r") as of:
 
     data = json.loads(all_data)
 
-    datapoint = data['hours'][10]
+    datapoints = data['hours']
 
 
 use_model = "noaa"
@@ -73,14 +73,24 @@ def parse_data(dp):
     # for i in range(len(alts)):
     #     print("ALT:", alts[i], "m", "      ", "ws: ", wind_speeds[i], "m/s")
 
-    plt.plot(alts, wind_speeds)
-    plt.xlabel("Altitude (m)")
-    plt.ylabel("Wind speed (m/s)")
-    plt.title(f"Wind gradient at {datapoint['time']} @ ({lat},{lng})")
-    plt.show()
+    return alts, wind_speeds, wind_directions
 
 
 
+ax = plt.figure().add_subplot(projection='3d')
+
+only_data_we_care_about = datapoints[0:24]
+
+for ind, data in enumerate(only_data_we_care_about):
+    alts,speeds,dirs = parse_data(data)
+    
+    print(data['time'])
+
+    ax.plot(alts, speeds, zs=ind)
+
+ax.set_xlabel("Altitude (m)")
+ax.set_ylabel("Wind speed (m/s)")
+ax.set_zlabel("Hour")
 
 
-parse_data(datapoint)
+plt.show()
