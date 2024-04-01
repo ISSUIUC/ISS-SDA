@@ -75,6 +75,15 @@ class StormGlassDataRow:
         a, s, _ = self.get_wind_gradient_raw()
         context.plot(a, s)
 
+    def cloud_cover(self) -> float:
+        return self.data__['cloudCover']
+    
+    def precipitation(self) -> float:
+        return self.data__['precipitation']
+    
+    def gusts(self) -> float:
+        return self.data__['gust']
+
 class StormGlassData:
     def __init__(self, sg_json, weather_model) -> None:
         self.data__ = sg_json
@@ -99,6 +108,9 @@ class StormGlassData:
     def __setitem__(self, key, value):
         print("WARN: __setitem__ called explicitly on StormGlassData object")
         self.data__[key] = value
+
+    def __len__(self):
+        return len(self.data__['hours'])
     
     def __delitem__(self, key):
         del self.data__[key]
