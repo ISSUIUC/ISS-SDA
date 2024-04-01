@@ -14,7 +14,6 @@ with open("./out.json", "r") as of:
 
     datapoints = data['hours']
 
-
 use_model = "noaa"
 
 def altitude_from_pressure_temperature(pressure_mb, temperature_C):
@@ -86,14 +85,35 @@ cloudGraph = plt.figure().add_subplot()
 precipitation = []
 precipGraph = plt.figure().add_subplot()
 
+direction = plt.figure().add_subplot()
+
 for ind, data in enumerate(only_data_we_care_about):
     alts,speeds,dirs, cc, precip = parse_data(data)
     cloud_cover.append(cc)
     precipitation.append(precip)
     # print(data['time'])
     # print(cloud_cover['time'])
-
     ax.plot(alts, speeds, zs=ind)
+
+
+angles = np.radians(dirs) - np.pi/2
+# normalized_speeds = speeds / np.max(speeds)
+normalized_speeds = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+U = []
+V = []
+for i in range(len(angles)):
+    U.append(np.cos(angles[i]) * normalized_speeds[i])
+    V.append(np.sin(angles[i]) * normalized_speeds[i])
+
+# print("U: ", U)
+# print("V: ", V)
+
+
+direction.quiver(range(10), [0]*10, U, V)
+direction.set_xlabel("Hour")
+direction.set_ylabel("Wind Speed (m/s)")
+direction.set_title("Wind Direction over 10 hours")
+
 
 ax.set_xlabel("Altitude (m)")
 ax.set_ylabel("Wind speed (m/s)")
