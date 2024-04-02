@@ -7,8 +7,9 @@ import pytz
 import util.nogo as nogo
 
 # CONFIGURATION
-latitude = 40.112283
-longitude = -88.226541
+latlong = (35.346656, -117.809655)
+latitude = latlong[0]
+longitude = latlong[1]
 
 
 def utc_datetime(utc_string):
@@ -47,9 +48,11 @@ def prettytime_full(dt: datetime):
 #################
 
 dataloader = util.stormglass.StormGlass(API_KEY.API_KEY)
-dataloader.load_file("./dl_out_2.json")
 # dataloader.generate(latitude, longitude)
-# dataloader.dump_file("./dl_out_2.json")
+# dataloader.dump_file("./out_FAR.json")
+
+
+dataloader.load_file("./out_historical_argonia.json")
 
 
 df: util.stormglass.StormGlassData = dataloader.get_dataframe()
@@ -90,8 +93,13 @@ for ind, row in enumerate(df):
     pcp_l.append(pcp)
     gust_l.append(gusts)
 
-    lc_ok.append(max_wind < 20 and max_ha_wind < 35 and cc < 50 and pcp < 1 and gusts < 20)
-    lc_mid.append(max_wind < 30 and max_ha_wind < 65 and cc < 70 and pcp < 2 and gusts < 30)
+    # launch states
+    good = max_wind < 20 and max_ha_wind < 35 and cc < 50 and pcp < 0.5 and gusts < 20
+    mid = max_wind < 30 and max_ha_wind < 45 and cc < 65 and pcp < 1 and gusts < 30
+
+    lc_ok.append(good)
+    lc_mid.append(mid)
+
 
 
     # Launch condition check
@@ -107,10 +115,14 @@ plt.plot(ts, gust_l, label="Ground level Gusts (m/s)")
 
 plt.xlabel(f"Time (Hours since {prettytime_full(utc_datetime(df[0]['time']).astimezone(tz))})")
 plt.ylabel("Parameter value (varied)")
-plt.legend(loc='upper left')
+plt.legend(loc='upper right')
 
-plt.fill_between(range(hours), 0, 100, where=lc_mid, facecolor='yellow', alpha=.5)
-plt.fill_between(range(hours), 0, 100, where=lc_ok, facecolor='green', alpha=.5)
+# plt.vlines((6*24)+23 ,0,100,linestyles='dashed',colors='black')
+# plt.vlines((7*24)+0 ,0,100,linestyles='solid',colors='red')
+
+# plt.fill_between(range(hours), 0, 100, where=lc_bad, facecolor='red', alpha=.1)
+plt.fill_between(range(hours), 0, 100, where=lc_mid, facecolor='yellow', alpha=.3)
+plt.fill_between(range(hours), 0, 100, where=lc_ok, facecolor='green', alpha=.3)
 
 
 # ax.set_xlabel("Altitude (m)")

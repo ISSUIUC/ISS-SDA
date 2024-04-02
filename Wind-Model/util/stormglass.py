@@ -126,14 +126,14 @@ class StormGlass:
         self.sg_data__ = None
         self.weather_model__ = "noaa"
 
-    def generate(self, lat:float, long:float, start: datetime.datetime = datetime.datetime.now(), end: datetime.datetime = datetime.datetime.max):
+    def generate(self, lat:float, long:float, start: float = datetime.datetime.now().timestamp(), end: float = 0):
         request_params = {'lat': lat, 'lng': long, 'params': self.weather_request_params__}
 
         if (start is not None):
-            request_params['start'] = int(start.timestamp())
+            request_params['start'] = int(start)
         
         if (end != datetime.datetime.max):
-            request_params['end'] = int(end.timestamp())
+            request_params['end'] = int(end)
 
         response = requests.get('https://api.stormglass.io/v2/weather/point', params=request_params, headers={'Authorization': self.API_key})
         self.data = response.json()
