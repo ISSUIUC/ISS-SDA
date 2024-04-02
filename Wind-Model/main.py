@@ -1,15 +1,21 @@
 # ADD STUFF HERE!
-import API_KEY
+import util.key_rotator as keys
 import util.stormglass
 import matplotlib.pyplot as plt
 from datetime import datetime
 import pytz
 import util.nogo as nogo
+import util.locations as locations
 
 # CONFIGURATION
-latlong = (35.346656, -117.809655)
-latitude = latlong[0]
-longitude = latlong[1]
+# latlong = (35.346656, -117.809655)
+# latlong = (38.970604, -80.220575)
+# latitude = latlong[0]
+# longitude = latlong[1]
+
+location = locations.LaunchSite.URBANA
+
+key_rotator = keys.APIKeyRotator("./Wind-Model/programdata/KEY_ROTATE_META.txt", "./Wind-Model/programdata/API_KEYS.txt")
 
 
 def utc_datetime(utc_string):
@@ -47,12 +53,12 @@ def prettytime_full(dt: datetime):
 # go_nogo.add_cond(low_altitude_wind_ok)
 #################
 
-dataloader = util.stormglass.StormGlass(API_KEY.API_KEY)
-# dataloader.generate(latitude, longitude)
-# dataloader.dump_file("./out_FAR.json")
+dataloader = util.stormglass.StormGlass(key_rotator)
+dataloader.generate(location)
+dataloader.dump_file("./out_urbana_1.json")
 
 
-dataloader.load_file("./out_historical_argonia.json")
+dataloader.load_file("./out_urbana_1.json")
 
 
 df: util.stormglass.StormGlassData = dataloader.get_dataframe()

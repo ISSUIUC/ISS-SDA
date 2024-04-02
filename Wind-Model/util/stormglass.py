@@ -4,6 +4,8 @@ import requests
 import datetime
 import json
 import math
+import util.key_rotator
+import util.locations
 
 def altitude_from_pressure_temperature(pressure_mb, temperature_C):
     altitude = (-math.log(pressure_mb * 0.000987) * (temperature_C + 273.15) * 29.254);
@@ -121,22 +123,27 @@ class StormGlass:
     # This wrapper retrieves all available data on the API and filters it later.
     weather_request_params__ = "waterTemperature,wavePeriod,waveDirection,waveHeight,windWaveDirection,windWaveHeight,windWavePeriod,swellPeriod,secondarySwellPeriod,swellDirection,secondarySwellDirection,swellHeight,secondarySwellHeight,windSpeed,windSpeed20m,windSpeed30m,windSpeed40m,windSpeed50m,windSpeed80m,windSpeed100m,windSpeed1000hpa,windSpeed800hpa,windSpeed500hpa,windSpeed200hpa,windDirection,windDirection20m,windDirection30m,windDirection40m,windDirection50m,windDirection80m,windDirection100m,windDirection1000hpa,windDirection800hpa,windDirection500hpa,windDirection200hpa,airTemperature,airTemperature80m,airTemperature100m,airTemperature1000hpa,airTemperature800hpa,airTemperature500hpa,airTemperature200hpa,precipitation,gust,cloudCover,humidity,pressure,visibility,currentSpeed,currentDirection,iceCover,snowDepth,seaLevel"
 
-    def __init__(self, API_key) -> None:
-        self.API_key: str = API_key
+    def __init__(self, api_rotator: util.key_rotator.APIKeyRotator) -> None:
+        self.api_rotator: util.key_rotator.APIKeyRotator = api_rotator
         self.sg_data__ = None
         self.weather_model__ = "noaa"
 
-    def generate(self, lat:float, long:float, start: float = datetime.datetime.now().timestamp(), end: float = 0):
+    def generate_latlong(self, lat:float, long:float, start: float = datetime.datetime.now().timestamp(), end: float = 0):
         request_params = {'lat': lat, 'lng': long, 'params': self.weather_request_params__}
 
         if (start is not None):
             request_params['start'] = int(start)
         
-        if (end != datetime.datetime.max):
+        if (end != 0):
             request_params['end'] = int(end)
 
-        response = requests.get('https://api.stormglass.io/v2/weather/point', params=request_params, headers={'Authorization': self.API_key})
+        api_key = str(self.api_rotator.get_key())
+        response = requests.get('https://api.stormglass.io/v2/weather/point', params=request_params, headers={'Authorization': api_key})
         self.data = response.json()
+        print("Requested Stormglass API data! Requests remaining: ", self.api_rotator.keys_remaining())
+
+    def generate(self, loc: util.locations.Location, start: float = datetime.datetime.now().timestamp(), end: float = 0):
+        self.generate_latlong(loc.value.lat(), loc.value.long(), start, end)
 
     def set_weather_model(self, new_model):
         self.weather_model__ = new_model
