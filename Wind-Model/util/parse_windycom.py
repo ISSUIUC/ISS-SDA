@@ -3,15 +3,15 @@ import util.interleave_data
 ##############################################################
 
 # Edit data below for parsing windy.com data.
-windy_data_in = open("./Wind-Model/extern/output_1713205174590_FAR.json")
-
-
+windy_data_in = open("./Wind-Model/extern/output_1713205174590_FAR.json", "r", encoding="utf-8")
 
 ##############################################################
 
+windy_data = json.loads(windy_data_in.read())
+
 # Time to get windy
 def get_windy_raw():
-    return json.load(windy_data_in)
+    return windy_data
 
 def get_gradient_raw():
     json_raw = get_windy_raw()
