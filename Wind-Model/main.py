@@ -6,6 +6,7 @@ from datetime import datetime
 import pytz
 import util.nogo as nogo
 import util.locations as locations
+import util.parse_windycom
 
 # CONFIGURATION
 # latlong = (35.346656, -117.809655)
@@ -13,7 +14,7 @@ import util.locations as locations
 # latitude = latlong[0]
 # longitude = latlong[1]
 
-location = locations.LaunchSite.URBANA
+location = locations.LaunchSite.FAR
 
 key_rotator = keys.APIKeyRotator("./Wind-Model/programdata/KEY_ROTATE_META.txt", "./Wind-Model/programdata/API_KEYS.txt")
 
@@ -54,11 +55,11 @@ def prettytime_full(dt: datetime):
 #################
 
 dataloader = util.stormglass.StormGlass(key_rotator)
-dataloader.generate(location)
-dataloader.dump_file("./out_urbana_1.json")
+# dataloader.generate(location)
+# dataloader.dump_file("./out_far_2.json")
 
 
-dataloader.load_file("./out_urbana_1.json")
+dataloader.load_file("./out_far_2.json")
 
 
 df: util.stormglass.StormGlassData = dataloader.get_dataframe()
@@ -77,7 +78,12 @@ lc_mid = []
 hours = len(df)
 
 for ind, row in enumerate(df):
-    a, s, _ = row.get_wind_gradient_raw()
+    a1, s1, _ = row.get_wind_gradient_raw()
+    a2, s2, _ = grad_wdcom = util.parse_windycom.get_gradient_raw()
+
+    a = a1
+    s = s1
+
     cc = row.cloud_cover()
     pcp = row.precipitation()
     gusts = row.gusts()
