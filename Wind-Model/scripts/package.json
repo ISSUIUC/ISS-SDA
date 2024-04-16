@@ -1,0 +1,10 @@
+{
+    "dependencies": {
+      "grib2json": "^1.0.2"
+    },
+    "type": "module",
+    "devDependencies": {
+      "puppeteer": "^22.6.3"
+    }
+  }
+  
