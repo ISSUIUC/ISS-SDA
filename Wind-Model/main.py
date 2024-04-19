@@ -7,6 +7,7 @@ import pytz
 import util.nogo as nogo
 import util.locations as locations
 import util.parse_windycom
+import util.interweave_data
 
 # CONFIGURATION
 # latlong = (35.346656, -117.809655)
@@ -78,23 +79,33 @@ lc_mid = []
 hours = len(df)
 
 for ind, row in enumerate(df):
-    a1, s1, _ = row.get_wind_gradient_raw()
-    a2, s2, _ = grad_wdcom = util.parse_windycom.get_gradient_raw()
+    a1, s1, d1 = row.get_wind_gradient_raw()
+    a2, s2, d2 = grad_wdcom = util.parse_windycom.get_gradient_raw()
 
-    a = a1
-    s = s1
+    # a = a1
+    # s = s1
+    a, s = util.interweave_data.interweave(a1, a2, s1, s2, d1, d2)
+    print(s1, "\n", s2, "\n")
+    # a = a2
+    # s = s2
 
+    high_alt_index = 0
+    for i in range(len(a)):
+        if a[i] >= 3000:
+            high_alt_index = i
+            break
+    
     cc = row.cloud_cover()
     pcp = row.precipitation()
     gusts = row.gusts()
 
     max_wind = -1
-    for i in range(8):
+    for i in range(high_alt_index):
         if s[i] > max_wind:
             max_wind = s[i]
 
     max_ha_wind = -1
-    for i in range(8, len(s)):
+    for i in range(high_alt_index, len(s)):
         if s[i] > max_ha_wind:
             max_ha_wind = s[i]
 
@@ -143,9 +154,11 @@ plt.fill_between(range(hours), 0, 100, where=lc_ok, facecolor='green', alpha=.3)
 
 plt.show()
 
-      
-    
 
 
-
-
+# testing
+# alt, speed = util.interweave_data.interweave(a1, a2, s1, s2, d1, d2)
+# plt.plot(alt, speed)
+# plt.xlabel("Altitude (m)")
+# plt.ylabel("Wind speed (mph)")
+# plt.show()

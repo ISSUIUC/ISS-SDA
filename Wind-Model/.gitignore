@@ -1,3 +1,6 @@
 API_KEY.py
 API_KEYS.txt
 out_*
+/util/node_modules/*
+/scripts/node_modules/*
+/extern/output_*
