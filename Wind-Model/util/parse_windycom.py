@@ -1,5 +1,4 @@
 import json
-import util.interleave_data
 ##############################################################
 
 # Edit data below for parsing windy.com data.
@@ -25,6 +24,14 @@ def get_gradient_raw():
         alts.append(CONST_ALTS[i])
     return alts, data['speeds'], data['directions']
 
-def get_gradient():
-    a, s, d = get_gradient_raw()
-    util.interleave_data.to_gradient(a, s, d)
+def get_data(i):
+    json_raw = get_windy_raw()
+
+    CONST_ALTS = [0, 100, 600, 750, 900, 1500, 2000, 3000, 4200, 5500, 7000, 9000, 10000, 11700, 13500, 30000]
+
+    out = {}
+    data = json_raw[i]
+    alts = []
+    for i in range(len(CONST_ALTS)):
+        alts.append(CONST_ALTS[i])
+    return alts, data['speeds'], data['directions']

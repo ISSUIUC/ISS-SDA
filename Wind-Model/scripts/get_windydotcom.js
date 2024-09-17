@@ -57,7 +57,7 @@ const read_label = async (page) => {
       let inner_text = await page.$eval(searchResultSelector, (element) => {
         return element.innerHTML
       });
-      
+
       // extract knots
       const extract_num = /^[^<]*/g;
       const extract_rot = /[0-9]*(?=deg)/;
@@ -96,7 +96,7 @@ const read_alt_label = async (page) => {
 }
 
 const unselect = async (page) => {
-  
+
   return new Promise(async function(myResolve, myReject) {
     // "Producing Code" (May take some time)
     const selector = "#menu-levels"
@@ -156,7 +156,7 @@ const drag_slider = async (page, selector, percentage) => {
 (async () => {
   // Launch the browser and open a new blank page
   clear_and_print(`${ISS_SDA} Spinning up weather scraper backend`);
-  const browser = await puppeteer.launch({headless: true});
+  const browser = await puppeteer.launch({headless: false});
   sub_print(`${PUPPETEER} Navigating..`);
   const page = await browser.newPage();
 
@@ -221,7 +221,7 @@ const drag_slider = async (page, selector, percentage) => {
 
     await page.keyboard.press('ArrowRight');
     await new Promise(r => setTimeout(r, 2000));
-  
+
 
   }
 
@@ -229,7 +229,7 @@ const drag_slider = async (page, selector, percentage) => {
 
   let filename = "output_" + Date.now() + "_FAR" + ".json" 
   fs.writeFileSync("../extern/" + filename, JSON.stringify(OUTPUT))
-  
+
 
   // STOP SCRAPING, CLEANUP
 

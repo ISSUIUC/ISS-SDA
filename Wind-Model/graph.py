@@ -80,12 +80,12 @@ ax = plt.figure().add_subplot(projection='3d')
 only_data_we_care_about = datapoints[0:24]
 
 cloud_cover = []
-cloudGraph = plt.figure().add_subplot()
+# cloudGraph = plt.figure().add_subplot()
 
 precipitation = []
-precipGraph = plt.figure().add_subplot()
+# precipGraph = plt.figure().add_subplot()
 
-direction = plt.figure().add_subplot()
+# direction = plt.figure().add_subplot()
 
 for ind, data in enumerate(only_data_we_care_about):
     alts,speeds,dirs, cc, precip = parse_data(data)
@@ -93,6 +93,8 @@ for ind, data in enumerate(only_data_we_care_about):
     precipitation.append(precip)
     # print(data['time'])
     # print(cloud_cover['time'])
+    print("x: ", alts, ",", sep="")
+    print("y: ", speeds, ",", sep="")
     ax.plot(alts, speeds, zs=ind)
 
 
@@ -109,10 +111,10 @@ for i in range(len(angles)):
 # print("V: ", V)
 
 
-direction.quiver(range(10), [0]*10, U, V)
-direction.set_xlabel("Hour")
-direction.set_ylabel("Wind Speed (m/s)")
-direction.set_title("Wind Direction over 10 hours")
+# direction.quiver(range(10), [0]*10, U, V)
+# direction.set_xlabel("Hour")
+# direction.set_ylabel("Wind Speed (m/s)")
+# direction.set_title("Wind Direction over 10 hours")
 
 
 ax.set_xlabel("Altitude (m)")
@@ -120,15 +122,15 @@ ax.set_ylabel("Wind speed (m/s)")
 ax.set_zlabel("Hour")
 ax.set_title("Wind speed vs Altitude over 24 hours")
 
-cloudGraph.plot(range(24), cloud_cover, marker="o")
-cloudGraph.set_xlabel("Hour")
-cloudGraph.set_ylabel("Cloud Cover (%)")
-cloudGraph.set_title("Cloud Cover over 24 hours")
+# cloudGraph.plot(range(24), cloud_cover, marker="o")
+# cloudGraph.set_xlabel("Hour")
+# cloudGraph.set_ylabel("Cloud Cover (%)")
+# cloudGraph.set_title("Cloud Cover over 24 hours")
 
-precipGraph.plot(range(24), precipitation, marker="o")
-precipGraph.set_xlabel("Hour")
-precipGraph.set_ylabel("Precipitation (mm/h)")
-precipGraph.set_title("Precipitation over 24 hours")
+# precipGraph.plot(range(24), precipitation, marker="o")
+# precipGraph.set_xlabel("Hour")
+# precipGraph.set_ylabel("Precipitation (mm/h)")
+# precipGraph.set_title("Precipitation over 24 hours")
 
 
 plt.show()
