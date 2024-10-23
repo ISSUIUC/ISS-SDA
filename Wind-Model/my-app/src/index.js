@@ -6,23 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import Plot from 'react-plotly.js';
 import Helmet from 'react-helmet';
 import Chart from './chart.js'
-import windData from './wind_data.json';
-import farDataTest from './far_wind_data_test.json';
-import farDataTestNew from './far_wind_data_test5_22.json';
-import stormglassData from "./sg_wind_data.json";
-import interweaved from './interweaved.json';
-import far529 from './far_5.29.json';
-import fartest from './manually_input_interweave.json';
-import almostdone from './almost_done.json';
-import justwindy from './just_windy.json';
-import finalhopefully from './finalhopefully.json';
-import fixedinterweave from './fixedinterweave.json';
-import final from './FAR_TIME.json';
-import last from './lastone.json';
-import am645 from './645am.json';
-import sunday2 from './sunday2.json';
-import june2 from './6_2.json';
-import june2_2 from './6_2_522am.json';
+import main_data from './main_data.json' 
 
 class WindModel extends React.Component {
   render() {
@@ -31,7 +15,7 @@ class WindModel extends React.Component {
 
     for (let i = 0; i <= 11; i += 3) {
       // CHANGE THIS LINE TO USE THE DATA YOU WANT
-      const rowData = june2_2.slice(i, i + 3); 
+      const rowData = main_data.slice(i, i + 3); 
 
       rows.push(
         <tr>
