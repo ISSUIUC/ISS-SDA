@@ -1,2 +1,4 @@
 .DS_Store
+Wind-Model/programdata
 *.pyc
+json_files
