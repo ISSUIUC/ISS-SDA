@@ -7,7 +7,7 @@ import json
 lat= 40.112283
 lng= -88.226541
 
-with open("./out.json", "r") as of:
+with open("./Wind-Model/out.json", "r") as of:
     all_data = of.read()
 
     data = json.loads(all_data)
