@@ -16,7 +16,7 @@ import numpy as np
 
 #************************************#
 # Look at the README for instructions on how to use!
-file_name = "./json_files/2-3-25.json"
+file_name = "./inf_raw.json"
 generate_new_data = False
 location = locations.LaunchSite.FAR
 #************************************#
@@ -26,6 +26,8 @@ if(len(sys.argv) > 1):
     for i in range(len(sys.argv)):
         if(sys.argv[i] == "-s"):
             IS_SILENT = True
+        if(sys.argv[i] == "-n"):
+            generate_new_data = True
         if(sys.argv[i] == "--out"):
             OUTFILE_NAME = sys.argv[i+1]
 

@@ -143,7 +143,7 @@ class StormGlass:
         api_key = str(self.api_rotator.get_key())
         response = requests.get('https://api.stormglass.io/v2/weather/point', params=request_params, headers={'Authorization': api_key})
         self.data = response.json()
-        print("Requested Stormglass API data! Requests remaining: ", self.api_rotator.keys_remaining())
+        # print("Requested Stormglass API data! Requests remaining: ", self.api_rotator.keys_remaining())
 
     def generate(self, loc: util.locations.Location, start: float = datetime.datetime.now().timestamp(), end: float = 0):
         self.generate_latlong(loc.value.lat(), loc.value.long(), start, end)
