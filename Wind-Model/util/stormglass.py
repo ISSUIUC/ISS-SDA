@@ -116,6 +116,9 @@ class StormGlassData:
     
     def __delitem__(self, key):
         del self.data__[key]
+
+    def __str__(self):
+        return f"<SGData : {len(self.data__['hours'])} entries>"
     
 
 class StormGlass:
