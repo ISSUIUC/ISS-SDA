@@ -153,7 +153,7 @@ class StormGlass:
             self.sg_data__ = json.loads(f.read())
 
     def dump_file(self, filepath):
-        with open(filepath, "w") as f:
+        with open(filepath, "w+") as f:
             f.write(json.dumps(self.data))
 
     def get_dataframe(self):

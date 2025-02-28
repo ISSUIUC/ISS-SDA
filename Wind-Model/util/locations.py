@@ -18,3 +18,6 @@ class LaunchSite(Enum):
     URBANA = Location(40.112283, -88.226541)
     ARGONIA = Location(37.166846, -97.739117)
     FAR = Location(35.347216, -117.808614)
+    BONG = Location(42.635178, -88.127473)
+    QCRC = Location(41.488008, -89.500092)
+    PENCE = (40.3867, -87.5113)
