@@ -7,6 +7,56 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.top-flex {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.data-entry-wrap {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+
+.data-entry {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  margin-right: 10px;
+  padding: 15px;
+  background-color: #ddd;
+  border-radius: 5px;
+}
+
+
+.data-entry-row {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.data-entry-row input {
+  margin-left: 20px;
+}
+
+.top-flex-title {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.top-flex-title-elem {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.big-title {
+  font-size: 1.8em;
+}
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
