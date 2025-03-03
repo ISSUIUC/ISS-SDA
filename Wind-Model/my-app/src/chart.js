@@ -37,8 +37,6 @@ const create_hline = (y, color) => {
 
 export default function Chart(props) {
 
-  // ssalt={stagesepalt} sialt={susignalt} wc={windcutoff}
-
   let shapes = [];
   if(props.ssalt != 0) {
     shapes.push(create_vline(props.ssalt, "blue"))
@@ -62,7 +60,7 @@ export default function Chart(props) {
               y: props.ydata,
               type: 'scatter',
               mode: 'lines+markers',
-              marker: {color: 'red'},
+              marker: {color: 'black', size: 1},
             }
           ]}
           layout={ {shapes: shapes, width: 500, height: 375, title: props.title, xaxis: {title: "Altitude (ft)"}, yaxis: {title: "Wind speed (mph)"} } }

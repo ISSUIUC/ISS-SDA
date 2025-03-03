@@ -36,6 +36,50 @@ body {
   justify-content: space-between;
 }
 
+.wm-datarows {
+  margin: 10px;
+}
+
+.wm-datarow {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.wm-datarow-NONE {
+  background-color: #ddd;
+  color: #444;
+}
+
+.wm-datarow-OK {
+  background-color: #dfd;
+  color: #252;
+}
+
+.wm-datarow-MED {
+  background-color: #ffd;
+  color: #442;
+}
+
+.wm-datarow-BAD {
+  background-color: #fcc;
+  color: #622;
+}
+
+.wm-datarow-label {
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.wm-datarow-value {
+  margin-right: 10px;
+}
+
+
+
 .data-entry-row input {
   margin-left: 20px;
 }

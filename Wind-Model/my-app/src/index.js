@@ -8,6 +8,54 @@ import Helmet from 'react-helmet';
 import Chart from './chart.js'
 import main_data from './main_data.json' 
 
+const Datarow = ({stat, label, value}) => {
+  return <div className={`wm-datarow wm-datarow-${stat}`}>
+    <div className='wm-datarow-label'>{label}</div>
+    <div className='wm-datarow-value'>{value}</div>
+  </div>
+}
+
+const WindAnalysisText = ({alts, windspeeds, cutoffs}) => {
+  let [ssalt, sialt, wc] = cutoffs;
+
+  if(ssalt == "") {
+    ssalt = 0;
+  }
+
+  if(sialt == "") {
+    sialt = 0;
+  }
+  if(wc == "") {
+    wc = 0;
+  }
+
+  const ground_speed = windspeeds[0]
+  const gs_stat = (ground_speed < wc) ? (ground_speed < wc*0.85 ? "OK" : "MED") : "BAD"
+  const MAX_ALT = Math.max(...alts)
+
+  const get_val_at_alt = (alt) => {
+    if(alt > MAX_ALT || alt < 0) {
+      return 0;
+    }
+
+    const key = Math.floor(alt/100)
+    return Math.max(windspeeds[key], windspeeds[key+1] ? windspeeds[key+1] : 0)
+  }
+
+  const ssalt_value = get_val_at_alt(ssalt);
+  const sialt_value = get_val_at_alt(sialt);
+
+  return (<>
+  <div className='wm-datarows'>
+    <b>Wind data for critical altitudes:</b>
+    <Datarow stat={gs_stat} label={"GROUND (x = 0ft)"} value={ground_speed.toFixed(2) + " mph"} />
+    <Datarow stat={"NONE"} label={`STAGE SEPERATION (x = ${ssalt.toFixed(0)}ft)`} value={ssalt_value.toFixed(2) + " mph"} />
+    <Datarow stat={"NONE"} label={`SUSTAINER IGNITION (x = ${sialt.toFixed(0)}ft)`} value={sialt_value.toFixed(2) + " mph"} />
+  </div>
+
+  </>);
+}
+
 const WindModel = () => {
   const [stagesepalt, setStageSepAlt] = useState(0);
   const [susignalt, setSusIgnAlt] = useState(0);
@@ -24,7 +72,8 @@ const WindModel = () => {
       <tr>
         {rowData.map(({ x, y, title }) => (
           <td>
-            <Chart xdata={x} ydata={y} title={title} ssalt={stagesepalt} sialt={susignalt} wc={windcutoff} />
+            <Chart key={title+"-1"} xdata={x} ydata={y} title={title} ssalt={stagesepalt} sialt={susignalt} wc={windcutoff} />
+            <WindAnalysisText key={title} alts={x} windspeeds={y} cutoffs={[Number(stagesepalt), Number(susignalt), Number(windcutoff)]} />
           </td>
         ))}
       </tr>
