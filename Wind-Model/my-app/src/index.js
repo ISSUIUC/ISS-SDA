@@ -39,7 +39,7 @@ const WindAnalysisText = ({alts, windspeeds, cutoffs}) => {
     }
 
     const key = Math.floor(alt/100)
-    return Math.max(windspeeds[key], windspeeds[key+1] ? windspeeds[key+1] : 0)
+    return windspeeds[key]
   }
 
   const ssalt_value = get_val_at_alt(ssalt);
