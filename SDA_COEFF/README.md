@@ -63,3 +63,9 @@ rocket:
 - If rocket is single stage, utilize the `SDA.yaml` housed in `single_stage_template`. 
 
 - Example filled in `SDA.yaml` is provided under `Example_Stargazer`. 
+
+- **For Each Rocket** 
+  - 
+  - Add a folder with the name of the rocket. 
+  - Include a `SDA.yaml` file in the folder. Templates are found in `two_stage_template` or `single_stage_template`. 
+  - Include a `RASAero.csv` file in the folder.
