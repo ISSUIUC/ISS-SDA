@@ -1,0 +1,36 @@
+<<: *simulation # this is internal 
+rocket:
+  <<: *simulated_rocket  # this is internal
+  stages:
+
+    - booster:
+      <<: *simulated_stage  # this is internal
+      rocket_body:
+        <<: *simulated_rocket_body  # this is internal
+        rasaero_lookup_file: RASAero.csv # in this format: "RASAero.csv"  
+        length: 6.68
+        dry_mass: 30 
+        radius: 0.0508
+        structure_CoM: [1.48, 0.0, 0.0]
+        combined_CoM: [1.03, 0.0, 0.0]
+        combined_cp: [0.68, 0.0, 0.0]
+      motor:
+        <<: *motor_M2500  # format *motor_NAME -- GNC will fill out the rest of the information needed for the motor  
+      avionics: 
+        <<: *MIDAS_MINI # etc 
+
+    - sustainer:
+      <<: *simulated_stage  # this is internal
+      rocket_body:
+        <<: *simulated_rocket_body  # this is internal
+        rasaero_lookup_file: # in this format: "RASAero.csv this may already be there" 
+        length: 
+        dry_mass: 
+        radius: 
+        structure_CoM:
+        combined_CoM: 
+        combined_cp: 
+      motor:
+        <<: *motor_M2500  # format *motor_NAME -- GNC will fill out the rest of the information needed for the motor  
+      avionics: 
+        <<: *MIDAS_MINI # etc  

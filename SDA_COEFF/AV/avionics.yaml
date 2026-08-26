@@ -1,0 +1,37 @@
+MIDAS_MINI: &MIDAS_MINI
+  name: "MIDAS_MINI"
+
+  sensors:
+    high_g:
+      RMS: 
+    gyro:
+      RMS:
+
+    magnetometer:
+      RMS:
+
+    barometer:
+      RMS: 
+
+    bno:
+      error: 
+
+
+MIDAS_MK2: &MIDAS_MK2
+  name: "MIDAS_MK2"
+
+  sensors:
+    high_g:
+      RMS:
+
+    gyro:
+      RMS: 
+
+    barometer:
+      RMS: 
+
+    magnetometer:
+      RMS:
+      
+    bno:
+      error: 
